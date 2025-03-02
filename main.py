@@ -1,3 +1,6 @@
+from stats import count_words
+import sys
+
 def book_to_string(path_to_file):
     with open(path_to_file) as f:
         file_contents = f.read()
@@ -28,14 +31,16 @@ def print_character_count_report(character_count_dictionary):
     
     for dictionary in list_of_character_counts:
         if (dictionary['character']).isalpha():
-            print(f"The '{dictionary['character']}' character was found {dictionary['count']} times")
+            print(f"'{dictionary['character']}: {dictionary['count']}'")
 
 def main():
-    try: 
-        whole_book_string = book_to_string("books/frankenstein.txt")
+    try:
+        if len(sys.argv) < 2:
+            print("Did you enter the command correctly? Usage: python3 main.py <path_to_book>")
+        whole_book_string = book_to_string(sys.argv[1])
         word_count = count_words(whole_book_string)
         character_count_dictionary = count_characters(whole_book_string)
-        print("--- Begin report of books/frankenstein.txt ---")
+        print(f"--- Begin report of {sys.argv[1]} ---")
         print(f"{word_count} words found in the document")
         print_character_count_report(character_count_dictionary)
         print("--- End report ---")
